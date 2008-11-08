@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+    font-family: Arial;
+    font-size: 1em;
+}
+
+#container {
+    margin: 0 auto;
+    width: 800px;
+    text-align: left;
+} 
+
+#menu {
+    text-align: left;
+}
+
+ul#menutabs {
+    width: 100%;
+}
+
+ul#menutabs li {
+    display: block;
+    float:left;
+    margin: 5px;
+}
+
+ul#menutabs li form {
+    float:right;
+    padding: 0;
+    margin: 0
+}
+
+#content {
+    padding-top: 10px;
+    clear: both;
+}
+
+.knowledgebox {
+    width: 100%;
+    margin-top: 15px;
+    border-bottom: 1px solid #000;
+}
+
+.knowledgebox code {
+    display: block;
+    background-color: #e7e7e7;
+    padding: 5px;
+    margin: 5 0 5 0;
+}

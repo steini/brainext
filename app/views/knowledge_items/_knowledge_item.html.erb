@@ -1,0 +1,6 @@
+<div class="knowledgebox">
+  <strong><%= link_to(knowledge_item.title, knowledge_item_path(knowledge_item)) %></strong>
+  <p><%= knowledge_item.body %></p>
+  <% if current_user && current_user.id == knowledge_item.user_id %>
+<% end %>
+</div>

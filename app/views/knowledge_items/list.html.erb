@@ -1,0 +1,8 @@
+<h1>search results</h1>
+<p>found <%= @search.total_entries %> hits for <%= @search.query %></p>
+
+<%= will_paginate(@search) %>
+
+<%= render :partial => @search.results %>
+
+<%= will_paginate(@search) %>

@@ -1,0 +1,79 @@
+= History
+
+This plugins stores the history of locations visited by a user.
+I felt annoyed enough when having to redirect user back to their
+previous location in a hackish way that I wrote this plugin.
+
+It avoids storing POST, PUT, DELETE and Ajax request. It also has a facility to
+specify actions not to store in the history.
+
+== 1. Installation
+
+Unpack into the <tt>vendor/plugin</tt> and that should be it.
+
+== 2. Usage
+
+In your <tt>app/controllers/application_controller.rb</tt>, add a
+history line like this:
+
+  class ApplicationController < ActionController::Base
+    history :default => "http://default.url.com/", :max => 10
+  end
+
+The <tt>history</tt> function accepts a hash of options
+- <tt>:default</tt>, the default URL to redirect
+- <tt>:max</tt>, the maximum locations to remember (five by defaults).
+None of the parameters are required. If somebody know of a better way
+to obtain the default URL, he is welcomed to tell me how.
+
+You can use the method <tt>history_skip</tt> in your controller if you
+want to avoid certain location to be stored in the history. By
+default, action resulting from a POST, PUT, DELETE request or an Ajax
+request are not stored in the history.
+
+  class FooController < ApplicationController
+    history_skip :action_to_skip
+
+    def action_to_skip
+      # I will not be stored in the history
+    end
+  end
+
+In your actions, you can then use the following methods:
+- <tt>last_location</tt>: returns the last visited location and removes it from the container, can be used with one numeric argument precising how many locations to go back in the history (1 by default),
+- <tt>peek_last_location</tt>: like <tt>last_location</tt> but don't remove it from the history,
+- <tt>redirect_back</tt>: redirect the user to the last location in history, it takes the same arguments as <tt>last_location</tt>,
+- <tt>store_location(force = false)</tt>: stores the current location in the history, set force parameter to true to store location even if it would be skipped.
+
+Note that if you want to use the plugin to create a "back" link on a page, you must
+go back two times. For example, using this controller
+
+  class HistoryController < ApplicationController
+    def foo
+    end
+
+    def bar
+    end
+
+    def back
+      redirect_back(2)
+    end
+  end
+
+I'll try to explain clearly why.
+Let's say that in your <tt>bar</tt> view, you create a back link
+wich links to the <tt>back</tt> action. Now a user visits <tt>foo</tt>
+then <tt>bar</tt>. What you want is your user being redirected to <tt>foo</tt>
+when clicking your "back" link. Now your user hits the link. The controller will
+call the back action. From its point of view, you are in the back action
+so going back one time would take you to the bar action.
+
+== 3. License
+
+This plugin is licensed under the MIT license. Complete license text
+is included in the MIT-LICENSE[link:files/MIT-LICENSE.html] file.
+
+== 4. Author
+
+This plugin was created by Damien Merenne <dam@cosinux.org> and is
+located at http://blog.cosinux.org/pages/rails-history.

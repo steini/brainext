@@ -1,0 +1,24 @@
+<h2>create knowledge</h2>
+
+<%= error_messages_for :knowledge_item %>
+
+
+<% form_for(@knowledge_item) do |f| %>
+  <p>
+    <%= f.label(:title) %>
+    <%= f.text_field(:title) %>
+  </p>  
+
+  <p>
+    <%= f.label(:body) %>
+    <%= f.text_area(:body) %>
+  </p>
+
+  <p>
+    <%= f.label(:public) %>
+    <%= f.check_box(:public) %>
+  </p>
+
+  <%= submit_tag("save") %>
+
+<% end %>

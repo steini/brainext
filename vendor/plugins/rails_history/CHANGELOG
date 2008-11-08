@@ -1,0 +1,17 @@
+*0.2* (June 26th, 2006)
+
+* add a parameter to force a location to be stored in the history
+  even if it would not normally be saved (Allen Adams, Damien Merenne)
+
+* add a peek_last_location to look at the last locations
+  visited without erasing history information (Allen Adams)
+
+* use Module#included instead of Module#append_features
+
+* add a test framework and some tests.
+
+* don't store deletes and puts request
+
+*0.1* (April 27th, 2006)
+
+* first plugin release

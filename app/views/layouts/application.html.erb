@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <%= stylesheet_link_tag "default", :cache => false %>
+  </head>
+  <body>
+    <div id="container">
+      <div id="menu">
+        <ul id="menutabs">
+          <% if logged_in? %>
+            <li><%= link_to("home", root_path) %></li>
+            <li><%= link_to("create knowledge", new_knowledge_item_path) %></li>
+            <li><%= link_to("logout", logout_path) %></li>
+            <li><%= render :partial => "shared/search_box" %></li>
+          
+          <% else %>
+            <li><%= render :partial => "sessions/new" %></li>
+          <% end %> 
+        </ul>
+      </div>
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

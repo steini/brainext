@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Jun 26 12:20:54 CEST 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1><a href="../classes/History.html">History</a></h1>
+<p>
+This plugins stores the history of locations visited by a user. I felt
+annoyed enough when having to redirect user back to their previous location
+in a hackish way that I wrote this plugin.
+</p>
+<p>
+It avoids storing POST, PUT, DELETE and Ajax request. It also has a
+facility to specify actions not to store in the history.
+</p>
+<h2>1. Installation</h2>
+<p>
+Unpack into the <tt>vendor/plugin</tt> and that should be it.
+</p>
+<h2>2. Usage</h2>
+<p>
+In your <tt>app/controllers/application_controller.rb</tt>, add a history
+line like this:
+</p>
+<pre>
+  class ApplicationController &lt; ActionController::Base
+    history :default =&gt; &quot;http://default.url.com/&quot;, :max =&gt; 10
+  end
+</pre>
+<p>
+The <tt>history</tt> function accepts a hash of options
+</p>
+<ul>
+<li><tt>:default</tt>, the default URL to redirect
+
+</li>
+<li><tt>:max</tt>, the maximum locations to remember (five by defaults).
+
+</li>
+</ul>
+<p>
+None of the parameters are required. If somebody know of a better way to
+obtain the default URL, he is welcomed to tell me how.
+</p>
+<p>
+You can use the method <tt>history_skip</tt> in your controller if you want
+to avoid certain location to be stored in the history. By default, action
+resulting from a POST, PUT, DELETE request or an Ajax request are not
+stored in the history.
+</p>
+<pre>
+  class FooController &lt; ApplicationController
+    history_skip :action_to_skip
+
+    def action_to_skip
+      # I will not be stored in the history
+    end
+  end
+</pre>
+<p>
+In your actions, you can then use the following methods:
+</p>
+<ul>
+<li><tt>last_location</tt>: returns the last visited location and removes it
+from the container, can be used with one numeric argument precising how
+many locations to go back in the history (1 by default),
+
+</li>
+<li><tt>peek_last_location</tt>: like <tt>last_location</tt> but don&#8217;t
+remove it from the history,
+
+</li>
+<li><tt>redirect_back</tt>: redirect the user to the last location in history,
+it takes the same arguments as <tt>last_location</tt>,
+
+</li>
+<li><tt>store_location(force = false)</tt>: stores the current location in the
+history, set force parameter to true to store location even if it would be
+skipped.
+
+</li>
+</ul>
+<p>
+Note that if you want to use the plugin to create a &quot;back&quot; link
+on a page, you must go back two times. For example, using this controller
+</p>
+<pre>
+  class HistoryController &lt; ApplicationController
+    def foo
+    end
+
+    def bar
+    end
+
+    def back
+      redirect_back(2)
+    end
+  end
+</pre>
+<p>
+I&#8217;ll try to explain clearly why. Let&#8217;s say that in your
+<tt>bar</tt> view, you create a back link wich links to the <tt>back</tt>
+action. Now a user visits <tt>foo</tt> then <tt>bar</tt>. What you want is
+your user being redirected to <tt>foo</tt> when clicking your
+&quot;back&quot; link. Now your user hits the link. The controller will
+call the back action. From its point of view, you are in the back action so
+going back one time would take you to the bar action.
+</p>
+<h2>3. License</h2>
+<p>
+This plugin is licensed under the MIT license. Complete license text is
+included in the <a href="MIT-LICENSE.html">MIT-LICENSE</a> file.
+</p>
+<h2>4. Author</h2>
+<p>
+This plugin was created by Damien Merenne &lt;dam@cosinux.org&gt; and is
+located at <a
+href="http://blog.cosinux.org/pages/rails-history">blog.cosinux.org/pages/rails-history</a>.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
