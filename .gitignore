@@ -5,3 +5,4 @@ doc/api
 doc/app
 ultrasphinx
 config/database.yml
+nbproject
