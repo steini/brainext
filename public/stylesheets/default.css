@@ -33,6 +33,7 @@ ul#menutabs li form {
 #content {
     padding-top: 10px;
     clear: both;
+    
 }
 
 .knowledgebox {
@@ -46,4 +47,20 @@ ul#menutabs li form {
     background-color: #e7e7e7;
     padding: 5px;
     margin: 5 0 5 0;
+}
+
+
+#delicious label {
+    display: block;
+    width: 100px;
+    float: left;
+}
+
+#delicious h2 {
+    background:#FFFFFF url(/images/delicious.20.gif) no-repeat scroll 0 2px;
+    color:#000000;
+    display:inline;
+    margin-right:10px;
+    min-height:20px;
+    padding:0 5px 0 30px;
 }

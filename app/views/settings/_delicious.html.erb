@@ -1,0 +1,12 @@
+<h2>delicious.com</h2>
+
+<% remote_form_for(@delicious, :url => {:action => "update_delicious"}) do |f| %>
+
+  <%= f.label(:username) %>
+  <%= f.text_field(:username) %>
+        
+  <br/>
+
+  <%= submit_tag(:save) %>
+
+<% end %>
