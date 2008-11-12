@@ -16,6 +16,8 @@ set :scm, "git"
 set :branch, "master"
 set :repository, "git://github.com/steini/brainext.git"
 set :keep_releases, 5
+set :git_enable_submodules, 1
+set :deploy_via, :remote_cache
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
