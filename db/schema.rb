@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081109163547) do
+ActiveRecord::Schema.define(:version => 20081112005850) do
 
   create_table "delicious_accounts", :force => true do |t|
     t.integer  "user_id"
@@ -24,7 +24,22 @@ ActiveRecord::Schema.define(:version => 20081109163547) do
     t.boolean  "fetched"
     t.string   "link"
     t.integer  "delicious_account_id"
-    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "last_fetched"
+    t.integer  "fetch_failures"
+    t.text     "fetch_error"
+    t.text     "body"
+  end
+
+  create_table "delicious_logs", :force => true do |t|
+    t.integer  "delicious_account_id"
+    t.integer  "imported"
+    t.integer  "fetched"
+    t.integer  "unfetched"
+    t.integer  "skipped"
+    t.datetime "started"
+    t.datetime "finished"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

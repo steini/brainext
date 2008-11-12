@@ -1,0 +1,5 @@
+<span>
+<% tags.each do |tag| %>
+  <%= link_to(tag, tagged_with_path(tag)) %>&nbsp;
+<% end %>
+</span>

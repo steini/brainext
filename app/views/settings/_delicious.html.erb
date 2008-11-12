@@ -1,6 +1,6 @@
 <h2>delicious.com</h2>
 
-<% remote_form_for(@delicious, :url => {:action => "update_delicious"}) do |f| %>
+<% remote_form_for(delicious, :url => {:action => "update_delicious"}) do |f| %>
 
   <%= f.label(:username) %>
   <%= f.text_field(:username) %>
@@ -10,3 +10,28 @@
   <%= submit_tag(:save) %>
 
 <% end %>
+
+<p>Having <%= delicious_fetched.to_i + delicious_unfetched.to_i %> bookmarks (fetched: <%= delicious_fetched%> / unfetched: <%= delicious_unfetched%>) </p>
+
+<h2>Fetch logs</h2>
+
+<table border="1" cellpadding="2" cellspacing="0">
+  <thead>
+    <th>start</th>
+    <th>end</th>
+    <th>new bookmarks</th>
+    <th>fetched bookmarks</th>
+    <th>unfetched bookmarks</th>
+    <th>skipped bookmarks</th>
+  </thead>
+<% @delicious_log.each do |logentry|  %>
+  <tr>
+    <td><%= logentry.started %></td>
+    <td><%= logentry.finished %></td>
+    <td><%= logentry.imported %></td>
+    <td><%= logentry.fetched %></td>
+    <td><%= logentry.unfetched %></td>
+    <td><%= logentry.skipped %></td>
+  </tr>
+<% end %>
+</table>

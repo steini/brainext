@@ -1,6 +1,6 @@
 <div class="knowledgebox">
-  <strong><%= link_to(knowledge_item.title, knowledge_item_path(knowledge_item)) %></strong>
+  <strong><%= link_to(knowledge_item.title, knowledge_item_path(knowledge_item)) %></strong>  by <%= knowledge_item.user.login %>
+  <%= link_to("edit", edit_knowledge_item_path(knowledge_item)) unless @current_user.nil? || @current_user.id != knowledge_item.user_id %>
   <p><%= knowledge_item.body %></p>
-  <% if current_user && current_user.id == knowledge_item.user_id %>
-<% end %>
+  <%= render :partial => "shared/tags", :collection => knowledge_item.tag_list  %>
 </div>

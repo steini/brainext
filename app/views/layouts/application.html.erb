@@ -18,6 +18,7 @@
           
           <% else %>
             <li><%= render :partial => "sessions/new" %></li>
+            <li>or <%= link_to("signup", signup_path) %></li>
           <% end %> 
         </ul>
       </div>

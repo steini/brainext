@@ -16,4 +16,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
   history :default => "/", :max => 10
+  
+  filter_parameter_logging :body
 end

@@ -1,0 +1,4 @@
+<div class="deliciousbox">
+  <strong><%= link_to(delicious_bookmark.title, delicious_bookmark.link) %></strong> by <%= delicious_bookmark.delicious_account.user.login %>
+  <%= render :partial => "shared/tags", :collection => delicious_bookmark.tag_list  %>
+</div>

@@ -1,0 +1,9 @@
+<h2>Items tagged with <i><%= @tag.name %></i></h2>
+
+<%= will_paginate(@tagged_items) %>
+
+<% @tagged_items.each do |tagged_item| %>
+  <%= render :partial => tagged_item.taggable %>
+<% end %>
+
+<%= will_paginate(@tagged_items) %>

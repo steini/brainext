@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    font-family: Arial;
+    font-family: Arial, Helvetica;
     font-size: 1em;
 }
 
@@ -15,7 +15,9 @@ body {
 }
 
 ul#menutabs {
-    width: 100%;
+    text-align: left;
+    margin: 0;
+    padding: 0
 }
 
 ul#menutabs li {
@@ -36,9 +38,10 @@ ul#menutabs li form {
     
 }
 
-.knowledgebox {
+.knowledgebox, .deliciousbox {
     width: 100%;
     margin-top: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #000;
 }
 
@@ -49,6 +52,10 @@ ul#menutabs li form {
     margin: 5 0 5 0;
 }
 
+#delicious table {
+    font-size: 0.6em;
+    font-family: Arial, Helvetica;
+}
 
 #delicious label {
     display: block;
@@ -63,4 +70,10 @@ ul#menutabs li form {
     margin-right:10px;
     min-height:20px;
     padding:0 5px 0 30px;
+}
+
+#knowledgeitemform label {
+    width: 100px;
+    display: block;
+    float:left;
 }

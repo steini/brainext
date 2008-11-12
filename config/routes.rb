@@ -11,6 +11,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :settings
   map.resources :knowledge_items
   
+  map.tagged_with "/tag/:tag", :controller => "tags", :action => "tagged_with"
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

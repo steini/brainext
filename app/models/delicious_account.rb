@@ -5,11 +5,12 @@ class DeliciousAccount < ActiveRecord::Base
   
   belongs_to :user
   
+  has_many :delicious_logs, :dependent => :destroy
+  
   has_many :delicious_bookmarks
   
   TAGS_FETCH_URL = "http://feeds.delicious.com/v2/xml/tags/%s"
   BOKMARKS_BY_TAG_FETCH_URL = "http://feeds.delicious.com/v2/xml/%s/%s?count=100"
-  
   
   BUFFER_SIZE = 102400
   
@@ -19,7 +20,21 @@ class DeliciousAccount < ActiveRecord::Base
   # because the fetch is limited to 100 entries, we are fetching the
   # tags and for each tag the bookmarks
   #
-  def fetch_bookmarks
+  def fetch_bookmarks()
+    
+    new_bookmarks = 0
+    fetched_bookmarks = 0
+    unfetched_bookmarks = 0
+    skipped_bookmarks = 0
+
+    skipped_bookmark_ids = []
+    
+    delicious_log = DeliciousLog.new(
+      :delicious_account_id => id,
+      :started => Time.now
+    )
+    
+    delicious_log.save
     
     puts "fetching #{TAGS_FETCH_URL % username}"
     
@@ -28,6 +43,7 @@ class DeliciousAccount < ActiveRecord::Base
     puts "done"
     
     puts "processing tags"
+    
     doc.xpath("/rss/channel/item/title").each do |title|
       
       tag = title.content
@@ -38,54 +54,80 @@ class DeliciousAccount < ActiveRecord::Base
       
       bookmarks_doc.xpath("/rss/channel/item").each do |bookmark|
         
-        puts "processing bookmark #{bookmark}"
-        
         guid =  bookmark.xpath("guid").first.content
         title =  bookmark.xpath("title").first.content
         link = bookmark.xpath("link").first.content
         categories = bookmark.xpath("category").map() { |category| category.content}
         
-        fetch_bookmark(guid, title, link, categories)
-      end
-      
-    end
-    
-  end
-  
-  def fetch_bookmark(guid, title, link, categories)
-    
-    bookmark = DeliciousBookmark.find_by_guid(guid)
-    
-    if bookmark.nil?
-      bookmark = DeliciousBookmark.new(
-        :guid => guid,
-        :title => title,
-        :link => link,
-        :tag_list => categories.join(","),
-        :delicious_account_id => id,
-        :fetched => 0
-      )
-      bookmark.save
+        bookmark = DeliciousBookmark.find_by_guid(guid)
         
-      begin
-        bookmark.update_attributes(
-          :fetched => 1,
-          :content => fetch_page(link)
-        )
-      rescue Exception => e
-        puts e
+        if bookmark.nil?
+          
+          new_bookmarks += 1
+          
+          bookmark = DeliciousBookmark.create(
+            :guid => guid,
+            :title => title,
+            :link => link,
+            :tag_list => categories.join(","),
+            :delicious_account_id => id,
+            :fetched => 0,
+            :fetch_failures => 0
+          )
+        end
+        
+        # skip fetching when it was tried already
+        # TODO define a Job that tries to fetch these
+        if bookmark.fetch_failures >= 1
+          # only count skipped bookmarks once
+          unless skipped_bookmark_ids.include?(bookmark.id)
+            skipped_bookmarks += 1 
+            skipped_bookmark_ids << bookmark.id
+          end
+          next
+        end
+        
+        begin
+          unless bookmark.fetched
+            bookmark.page_content 
+            fetched_bookmarks += 1
+            bookmark.update_attributes(
+              "last_fetched" => Time.now
+            )
+          end
+        rescue Exception => e
+          puts "error fetching #{link}: #{e}"
+          unfetched_bookmarks += 1
+          bookmark.update_attributes(
+            "last_fetched" => Time.now,
+            "fetch_failures" => bookmark.fetch_failures + 1,
+            "fetch_error" => e
+          )
+        end
+        
       end
       
     end
+    
+    delicious_log.update_attributes(
+      :imported => new_bookmarks,
+      :skipped => skipped_bookmarks,
+      :fetched => fetched_bookmarks,
+      :unfetched => unfetched_bookmarks,
+      :finished => Time.now
+    )
+    
   end
   
-  def fetch_page(link)
-    pieces = URI.parse(link)
-    Net::HTTP::start(pieces.host, pieces.port) do |connection|
-      response = connection.request_get(pieces.path)
-      response.body
-    end   
+  def get_stats() 
     
+    sql = "select count(fetched) as c, fetched from delicious_bookmarks " + 
+      "where delicious_account_id = 1 GROUP BY fetched ORDER BY fetched DESC"
+    
+    result = DeliciousAccount.find_by_sql(sql)
+    
+    [0, 0] if result.length == 0 and return
+    [result.first.c, result.last.c] 
   end
   
 end

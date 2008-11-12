@@ -1,24 +1,31 @@
-<h2>create knowledge</h2>
-
-<%= error_messages_for :knowledge_item %>
-
-
-<% form_for(@knowledge_item) do |f| %>
-  <p>
-    <%= f.label(:title) %>
-    <%= f.text_field(:title) %>
-  </p>  
-
-  <p>
-    <%= f.label(:body) %>
-    <%= f.text_area(:body) %>
-  </p>
-
-  <p>
-    <%= f.label(:public) %>
-    <%= f.check_box(:public) %>
-  </p>
-
-  <%= submit_tag("save") %>
-
-<% end %>
+<div id="knowledgeitemform">
+  <h2>create knowledge</h2>
+  
+  <%= error_messages_for :knowledge_item %>
+  
+  
+  <% form_for(@knowledge_item) do |f| %>
+    <p>
+      <%= f.label(:title) %>
+      <%= f.text_field(:title, :size => 53) %>
+    </p>  
+  
+    <p>
+      <%= f.label(:body) %>
+      <%= f.text_area(:body, :cols => 60) %>
+    </p>
+  
+    <p>
+      <%= f.label(:tag_list) %>
+      <%= f.text_field(:tag_list, :size => 53) %>
+    </p>
+  
+    <p>
+      <%= f.label(:public) %>
+      <%= f.check_box(:public) %>
+    </p>
+  
+    <%= submit_tag("save") %>
+  
+  <% end %>
+</div>

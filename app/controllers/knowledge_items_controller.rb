@@ -1,6 +1,6 @@
 class KnowledgeItemsController < ApplicationController
   
-  before_filter :login_required
+  before_filter :login_required, :except => [:show]
   
   history_skip :edit, :new
 
@@ -25,10 +25,14 @@ class KnowledgeItemsController < ApplicationController
   # TODO only search in public and own knowledge
   def search
     
+    page = params[:page] || 1
+    
     @search = Ultrasphinx::Search.new(
       :query => params[:q],
       :sort_mode => "descending",
-      :sort_by => "created_at"
+      :sort_by => "created_at",
+      :class_names => ["DeliciousBookmark", "KnowledgeItem"],
+      :page => page
     )
     @search.run
     @search.results
@@ -66,6 +70,22 @@ class KnowledgeItemsController < ApplicationController
       redirect_back
     else
       render :action => "edit"
+    end
+    
+  end
+  
+  
+  def show
+  
+    logged_in?
+    
+    @knowledge_item = KnowledgeItem.find(params[:id])
+    
+    # check for non public items and shield them
+    if @knowledge_item.public == 0
+      @knowledge_item.user_id == @current_user.id
+      flash[:notice] = "Sorry, you don't have the permission to see this item!"
+      @knowledge_item = nil
     end
     
   end

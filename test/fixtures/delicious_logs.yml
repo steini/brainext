@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  delicious_account_id: 1
+  new: 1
+  fetched: 1
+  unfetched: 1
+  skipped: 1
+
+two:
+  delicious_account_id: 1
+  new: 1
+  fetched: 1
+  unfetched: 1
+  skipped: 1

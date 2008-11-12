@@ -7,6 +7,9 @@ class SettingsController < ApplicationController
     
     @delicious = DeliciousAccount.new if @delicious.nil?
     
+    @delicious_fetched, @delicious_unfetched = @delicious.get_stats()
+    @delicious_log = DeliciousLog.find_all_by_delicious_account_id(@delicious.id)
+    
   end
   
   def update_delicious

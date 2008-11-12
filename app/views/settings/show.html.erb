@@ -1,5 +1,10 @@
-<h1>Setting</h1>
+<h1>Settings</h1>
 
 <div id="delicious">
-<%= render :partial => "delicious" %>
+<%= render :partial => "delicious", :locals => { 
+  :delicious => @delicious, 
+  :delicious_fetched => @delicious_fetched, 
+  :delicious_unfetched => @delicious_unfetched
+}
+%>
 </div>

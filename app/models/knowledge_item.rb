@@ -6,5 +6,6 @@ class KnowledgeItem < ActiveRecord::Base
   
   is_indexed :fields => ['title', 'body', 'created_at']
 
+  acts_as_taggable
   
 end
