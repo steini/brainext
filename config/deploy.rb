@@ -1,6 +1,6 @@
 require 'mongrel_cluster/recipes'
 
-set :application, "mm"
+set :application, "brainext"
 set :domain, "danielsteiner.de"
 set :rails_env, "production"
 set :default_stage, "production"
@@ -14,7 +14,7 @@ default_run_options[:pty] = true
 
 set :scm, "git"
 set :branch, "master"
-set :repository, "git://github.com/steini/mm.git"
+set :repository, "git://github.com/steini/brainext.git"
 set :keep_releases, 5
 
 # If you aren't deploying to /u/apps/#{application} on the target
